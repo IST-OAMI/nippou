@@ -25,20 +25,15 @@ print(f'app: {app}')
    - 画面に表示されている内容から作業内容を1行で簡潔に記述
    - プロジェクト推測（NOK関連かIST関連か）
 
-3. Bashツールでログに追記する:
-```bash
-python3 -c "
-from src.log_writer import append_log
-append_log(app='<アプリ名>', title='<画面から読み取ったタイトル>', summary='<分析した作業内容>')
-"
-```
-
-4. Bashツールでスクショを削除する:
+3. Bashツールでログ追記+スクショ削除を一括実行する:
 ```bash
 python3 -c "
 from src.screenshot import delete_screenshot
+from src.log_writer import append_log
 from pathlib import Path
+append_log(app='<アプリ名>', title='<画面から読み取ったタイトル>', summary='<分析した作業内容>')
 delete_screenshot(Path('<スクショパス>'))
+print('記録完了')
 "
 ```
 

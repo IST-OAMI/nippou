@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c \"from src.screenshot*)",
+      "Bash(python3 -c \"from src.active_app*)",
+      "Bash(python3 -c \"from src.log_writer*)",
+      "Read(tmp/**)"
+    ]
+  }
+}
