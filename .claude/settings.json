@@ -1,10 +1,18 @@
 {
   "permissions": {
     "allow": [
-      "Bash(python3 -c \"from src.screenshot*)",
-      "Bash(python3 -c \"from src.active_app*)",
-      "Bash(python3 -c \"from src.log_writer*)",
-      "Read(tmp/**)"
+      "Bash(python3 -c *src.screenshot*)",
+      "Bash(python3 -c *src.active_app*)",
+      "Bash(python3 -c *src.log_writer*)",
+      "Bash(python3 -c *src.log_parser*)",
+      "Bash(python3 -c *src.report_generator*)",
+      "Bash(python3 -c *append_log*)",
+      "Bash(python3 -c *capture_screenshot*)",
+      "Bash(python3 -c *delete_screenshot*)",
+      "Bash(rm *tmp/screenshot*)",
+      "Read(tmp/**)",
+      "Read(logs/**)",
+      "Read(output/**)"
     ]
   }
 }
