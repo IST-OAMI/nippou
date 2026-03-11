@@ -11,7 +11,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ### スキル構成
 
 - **`/screenshot-log`**: `/loop 5m` で定期実行。スクショ撮影→ウィンドウタイトル取得→CC分析→ログ追記→スクショ削除
-- **`/nippou`**: 終業時に手動実行。当日ログから日報を自動生成
+- **`/finish`**: 終業時に手動実行。ループ停止→当日ログから日報を自動生成
 
 ### データフロー
 
@@ -19,7 +19,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 screencapture + osascript(ウィンドウタイトル)
   → CCが分析・テキスト化
   → logs/YYYY-MM-DD.md に追記
-  → /nippou で output/YYYY-MM-DD.md に日報生成
+  → /finish でループ停止 + output/YYYY-MM-DD.md に日報生成
 ```
 
 ### 日報の自動生成箇所

@@ -1,14 +1,16 @@
 ---
-description: 当日の作業ログから日報を自動生成する
+description: スクショ記録のループを停止し、当日の日報を自動生成する
 ---
 
-# nippou
+# finish
 
-当日の作業ログ（logs/YYYY-MM-DD.md）を読み込み、template.mdに沿った日報を生成する。
+/loop で動作中の /screenshot-log を停止し、当日の作業ログから日報を生成する。
 
 ## 手順
 
-1. Bashツールで当日のログを解析し、カテゴリ分類と時間算出を行う:
+1. まず、実行中の /loop を停止する。ユーザーに「ループを停止します。Escape キーで /loop を終了してください」と案内する。
+
+2. Bashツールで当日のログを解析し、カテゴリ分類と時間算出を行う:
 ```bash
 python3 -c "
 from src.log_parser import parse_log
@@ -30,13 +32,13 @@ for key, h in hours.items():
 "
 ```
 
-2. Readツールで当日のログファイル `logs/YYYY-MM-DD.md` を読み込み、全体の作業内容を把握する。
+3. Readツールで当日のログファイル `logs/YYYY-MM-DD.md` を読み込み、全体の作業内容を把握する。
 
-3. ログ全体を見て以下を生成する:
+4. ログ全体を見て以下を生成する:
    - **やったこと**: 作業を3〜5項目にグルーピングし、各項目に2〜3個の詳細を付ける
    - **学んだこと**: 作業から得られた学びを抽象化して3項目にまとめる（技術的な発見、プロセスの改善点など）
 
-4. Bashツールで日報を生成する:
+5. Bashツールで日報を生成する:
 ```bash
 python3 -c "
 from src.log_parser import parse_log
@@ -62,10 +64,10 @@ print(f'日報を生成しました: {path}')
 "
 ```
 
-5. Readツールで生成された `output/YYYY-MM-DD.md` を読み込み、内容をユーザーに表示する。
+6. Readツールで生成された `output/YYYY-MM-DD.md` を読み込み、内容をユーザーに表示する。
 
 ## 注意事項
 
-- activitiesとlearningsの中身はステップ3で考えた内容を埋める
+- activitiesとlearningsの中身はステップ4で考えた内容を埋める
 - 学んだことは具体的な作業内容ではなく、抽象化した知見にする（例: 「Terraformのstate管理ではbackend設定の一貫性が重要」）
 - 所感・明日活かす具体策は空欄のまま残す（ユーザーが手動で記入）
