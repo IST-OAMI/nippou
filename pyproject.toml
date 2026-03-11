@@ -1,0 +1,5 @@
+[project]
+name = "nippou"
+version = "0.1.0"
+description = "日報自動生成ツール"
+requires-python = ">=3.10"
