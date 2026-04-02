@@ -3,8 +3,8 @@
 from dataclasses import dataclass
 from .log_parser import LogEntry
 
-CATEGORIES = ["MTG", "資料作成", "検証", "開発", "テスト", "環境構築", "調査", "リリース", "レビュー", "その他"]
-PROJECTS = ["NOK_インフラ支援", "IST_インフラ対応"]
+CATEGORIES = ["MTG", "資料作成", "検証", "開発", "テスト", "環境構築", "調査", "リリース", "レビュー", "設計", "実装", "問い合わせ対応", "その他"]
+PROJECTS = ["NOK_インフラ支援", "IST_インフラ対応", "昭和産業_AI基盤構築"]
 
 # アプリ名・キーワードからカテゴリを推測するルール
 CATEGORY_RULES: list[tuple[list[str], str]] = [
@@ -17,10 +17,14 @@ CATEGORY_RULES: list[tuple[list[str], str]] = [
     (["Chrome", "Safari", "Firefox", "ブラウザ", "調査", "検索"], "調査"),
     (["リリース", "deploy", "デプロイ"], "リリース"),
     (["PR", "Pull Request", "レビュー", "review", "GitHub"], "レビュー"),
+    (["設計", "アーキテクチャ", "デザイン", "design"], "設計"),
+    (["実装", "コーディング", "coding"], "実装"),
+    (["問い合わせ", "サポート", "support", "inquiry"], "問い合わせ対応"),
 ]
 
 # プロジェクト判定キーワード
 PROJECT_RULES: list[tuple[list[str], str]] = [
+    (["昭和産業", "showa-sangyo", "showa_sangyo"], "昭和産業_AI基盤構築"),
     (["NOK", "nok"], "NOK_インフラ支援"),
     (["IST", "ist"], "IST_インフラ対応"),
 ]
