@@ -1,0 +1,51 @@
+作業ディレクトリ: /Users/user/nippou
+
+以下の手順を順番に実行してください。
+
+## ステップ1: スクショ撮影とアクティブアプリ取得（並列実行）
+```bash
+python3 -c "from src.screenshot import capture_screenshot; path = capture_screenshot(); print(f'screenshot: {path}')"
+```
+```bash
+python3 -c "from src.active_app import get_active_app; app = get_active_app(); print(f'app: {app}')"
+```
+
+撮影が失敗した場合（RuntimeError等）は即座に以下を実行して終了:
+```bash
+python3 -c "from src.log_writer import append_log; from datetime import datetime; t=datetime.now(); append_log(app='', title='', summary='離席中', timestamp=t); print(f'{t:%H:%M} 記録完了（離席中）')"
+```
+
+## ステップ2: スクショを Read ツールで読み込んで分析
+
+出力されたスクショパスを Read ツールで画像として読み込み、画面内容を徹底的に読み取って以下を判断する:
+- 具体的な作業内容を1行で記述する
+- プロジェクト推測（NOK / IST / 昭和産業 関連か）
+
+### 分析ガイド（summaryの解像度を上げる）
+
+- **ブラウザ**: タブタイトル、URL、ページ内の見出し・本文のキーワード
+  - OK: 「AWS EC2 Linuxインスタンスの起動手順を調査」「SSM Agentの接続トラブルシュート」
+  - NG: 「ブラウザでの調査・確認作業」（禁止）
+- **ターミナル**: 実行中のコマンド、ディレクトリ、出力内容
+  - OK: 「terraform planでEC2モジュールの差分確認」
+  - NG: 「ターミナルでの作業」（禁止）
+- **エディタ**: 開いているファイル名、編集中のコード内容
+  - OK: 「main.tfのセキュリティグループ設定を編集」
+  - NG: 「VS Codeでの作業」（禁止）
+- **デスクトップのみ**: 「デスクトップ表示中」とする。作業内容を捏造しない
+
+### 注意事項
+- summaryは日本語で具体的に書く
+- 画面に読み取れるサービス名・技術名・ファイル名があれば必ず含める
+- プロジェクト名がわかれば [NOK] / [IST] / [昭和産業] を prefix に付ける
+- スクショが真っ暗な場合は「離席中」とする
+
+## ステップ3: ログ追記とスクショ削除（順次実行）
+```bash
+python3 -c "from src.log_writer import append_log; from datetime import datetime; t=datetime.now(); append_log(app='<アプリ名>', title='<タイトル>', summary='<分析した作業内容>', timestamp=t); print(f'{t:%H:%M} 記録完了')"
+```
+```bash
+python3 -c "from src.screenshot import delete_screenshot; from pathlib import Path; delete_screenshot(Path('<スクショパス>')); print('削除完了')"
+```
+
+最後に「HH:MM 記録完了 — <summary の先頭60文字>」の形式で1行だけ返してください。
